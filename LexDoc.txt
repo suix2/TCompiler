@@ -1,0 +1,7 @@
+Flex is used to generate the lexical analyzer.
+
+- Comment Handling: 
+- String Handling: 
+- Error Handling: 
+- EOF Handling: 
+- Other Features: 

@@ -1,13 +1,14 @@
-#include <stdio.h>
+#include <iostream>
 #include "util.h"
 #include "errormsg.h"
 #include "tokens.h"
 
+using namespace util;
+using namespace errormsg;
+
 YYSTYPE yylval;
 
 int yylex(void); /* prototype for the lexing function */
-
-
 
 string toknames[] = {
 "ID", "STRING", "INT", "COMMA", "COLON", "SEMICOLON", "LPAREN",
@@ -20,29 +21,37 @@ string toknames[] = {
 
 
 string tokname(tok) {
-  return tok<257 || tok>299 ? "BAD_TOKEN" : toknames[tok-257];
+    return tok<257 || tok>300 ? "BAD_TOKEN" : toknames[tok-257];
 }
 
 int main(int argc, char **argv) {
- string fname; int tok;
- if (argc!=2) {fprintf(stderr,"usage: a.out filename\n"); exit(1);}
- fname=argv[1];
- EM_reset(fname);
- for(;;) {
-   tok=yylex();
-   if (tok==0) break;
-   switch(tok) {
-   case ID: case STRING:
-     printf("%10s %4d %s\n",tokname(tok),EM_tokPos,yylval.sval);
-     break;
-   case INT:
-     printf("%10s %4d %d\n",tokname(tok),EM_tokPos,yylval.ival);
-     break;
-   default:
-     printf("%10s %4d\n",tokname(tok),EM_tokPos);
-   }
- }
- return 0;
+    string fname;
+    int tok;
+    if(argc!=2)
+    {
+        cerr<<"usage: a.out filename"<<endl;
+        return 1;
+    }
+    fname=argv[1];
+    EM_reset(fname);
+    for(;;)
+    {
+        tok=yylex();
+        if (tok==0) break;
+        switch(tok) {
+            case ID: case STRING:
+            cout<<tokname(tok)<<"\t"<<EM_tokPos<<"\t"<<yylval.sval<<endl;
+            break;
+            case INT:
+            cout<<tokname(tok)<<"\t"<<EM_tokPos<<"\t"<<yylval.ival<<endl;
+            break;
+            case CHAR:
+            cout<<tokname(tok)<<"\t"<<EM_tokPos<<"\t"<<yylval.cval<<endl;
+            default:
+            cout<<tokname(tok)<<"\t"<<EM_tokPos;
+        }
+    }
+    return 0;
 }
 
 

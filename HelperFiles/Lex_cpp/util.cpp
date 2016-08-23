@@ -8,9 +8,14 @@
 // this line is used to test comment
 /* this line is also used to test comment*/
 
-U_boolList U_BoolList(bool head, U_boolList tail)
-{ U_boolList list = checked_malloc(sizeof(*list));
-  list->head = head;
-  list->tail = tail;
-  return list;
+namespace util
+{
+    SP_U_BoolList U_BoolList::get_U_BoolList(bool head, SP_U_BoolList tail)
+    {
+        SP_U_BoolList list=std::make_shared<U_BoolList>();
+        list->head=head;
+        list->tail=tail;
+        return list;
+    }
+    
 }

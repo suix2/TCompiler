@@ -1,5 +1,5 @@
 %{
-#include <string.h>
+#include <string>
 #include "util.h"
 #include "tokens.h"
 #include "errormsg.h"

@@ -1,13 +1,18 @@
-typedef char *string;
-typedef char bool;
+#ifndef UTIL_H
+namespace util
+{
+    using SP_U_BoolList=std::shared_ptr<U_BoolList>;
 
-#define TRUE 1
-#define FALSE 0
+    class U_BoolList
+    {
+        private:
+            U_BoolList(){};
+        
+        public:
+            bool head;
+            SP_U_BoolList tail;
+            SP_U_BoolList get_U_BoolList(bool head, SP_U_BoolList tail);
+    }
+}
 
-void *checked_malloc(int);
-string String(char *);
-
-typedef struct U_boolList_ *U_boolList;
-struct U_boolList_ {bool head; U_boolList tail;};
-U_boolList U_BoolList(bool head, U_boolList tail);
-
+#define UTIL_H

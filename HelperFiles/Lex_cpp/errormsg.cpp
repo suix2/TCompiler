@@ -3,23 +3,22 @@
  *              error messages about the Tiger program.
  *
  */
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdarg.h>
-#include "util.h"
 #include "errormsg.h"
 
+namespace errormsg
+{
+    bool anyErrors=false;
+    int EM_tokPos=0;
+    extern FILE *yyin;
+    static string fileName="";
+    static int lineNum =1;
+    static std::shared_ptr linePos();
+    
+    
+}
 
-bool anyErrors=false;
-
-static string fileName="";
-
-static int lineNum=1;
-
-int EM_tokPos=0;
-
-extern FILE *yyin;
+#include <stdlib.h>
+#include <stdarg.h>
 
 typedef struct intList {int i; struct intList *rest;} *IntList;
 

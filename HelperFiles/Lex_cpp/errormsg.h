@@ -1,9 +1,30 @@
-extern bool EM_anyErrors;
+#include <iostream>
+#include "util.h"
 
-void EM_newline(void);
+namespace errormsg
+{
+    extern bool EM_anyErrors;
 
-extern int EM_tokPos;
+    void EM_newline(void);
 
-void EM_error(int, string,...);
-void EM_impossible(string,...);
-void EM_reset(string filename);
+    extern int EM_tokPos;
+
+    void EM_error(int, string,...);
+    void EM_impossible(string,...);
+    void EM_reset(string filename);
+    
+    class IntList
+    {
+        private:
+            int i;
+            std::shared_ptr<IntList> rest;
+            IntList(){};
+        
+        public:
+            std::shared_ptr<IntList> get_intList
+                (int i, std::shared_ptr<IntList> rest);
+            
+            
+    }
+    
+}

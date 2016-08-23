@@ -14,7 +14,8 @@ void *checked_malloc(int len)
  }
  return p;
 }
-
+// this line is used to test comment
+/* this line is also used to test comment*/
 string String(char *s)
 {string p = checked_malloc(strlen(s)+1);
  strcpy(p,s);

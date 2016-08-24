@@ -1,8 +1,8 @@
-#include <iostream>
 #include "util.h"
 #include "errormsg.h"
 #include "tokens.h"
 
+using namespace std;
 using namespace util;
 using namespace errormsg;
 

@@ -10,9 +10,9 @@
 
 namespace util
 {
-    SP_U_BoolList U_BoolList::get_U_BoolList(bool head, SP_U_BoolList tail)
+    SP_U_BoolList get_U_BoolList(bool head, SP_U_BoolList tail)
     {
-        SP_U_BoolList list=std::make_shared<U_BoolList>();
+        SP_U_BoolList list(new U_BoolList());
         list->head=head;
         list->tail=tail;
         return list;

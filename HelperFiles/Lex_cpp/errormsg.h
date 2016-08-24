@@ -1,4 +1,7 @@
-#include <iostream>
+#ifndef ERRORMSG_H
+
+#include <cstdlib>
+#include <stdexcept>
 #include "util.h"
 
 namespace errormsg
@@ -9,22 +12,28 @@ namespace errormsg
 
     extern int EM_tokPos;
 
-    void EM_error(int, string,...);
-    void EM_impossible(string,...);
-    void EM_reset(string filename);
+    void EM_error(int, std::string, std::initializer_list<std::string>);
+    //void EM_impossible(string,...);
+    void EM_reset(std::string filename);
     
     class IntList
     {
+        using SP_IntList=std::shared_ptr<IntList>;
+        friend SP_IntList get_intList (int i, SP_IntList rest);
+        
         private:
-            int i;
-            std::shared_ptr<IntList> rest;
-            IntList(){};
+            IntList(){}
         
         public:
-            std::shared_ptr<IntList> get_intList
-                (int i, std::shared_ptr<IntList> rest);
-            
-            
-    }
+            int i;
+            SP_IntList rest;
+    };
+    
+    using SP_IntList=std::shared_ptr<IntList>;
+    
+    SP_IntList get_intList(int i, SP_IntList rest);
     
 }
+
+#define ERRORMSG_H
+#endif

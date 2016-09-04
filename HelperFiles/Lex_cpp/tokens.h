@@ -1,9 +1,9 @@
-typedef union  {
-	int pos;
-	int ival;
+union YYSTYPE{
+    int pos;
+    int ival;
     char cval;
-	string sval;
-	} YYSTYPE;
+    std::string *sval;
+    };
 extern YYSTYPE yylval;
 
 # define ID 257

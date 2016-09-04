@@ -3,6 +3,7 @@
  *              error messages about the Tiger program.
  *
  */
+#include <FlexLexer.h>
 #include "errormsg.h"
 
 using namespace util;
@@ -13,9 +14,9 @@ namespace errormsg
     bool anyErrors=false;
     int EM_tokPos=0;
     extern FILE *yyin;
-    static char *fileName=nullptr;
+    static const char *fileName=nullptr;
     static int lineNum =1;
-    static SP_IntList linePos();
+    static SP_IntList linePos;
     
     SP_IntList get_intList(int i, SP_IntList rest)
     {
@@ -36,17 +37,17 @@ namespace errormsg
         anyErrors=false;
         fileName=fname.c_str();
         lineNum=1;
-        linePos=get_intList(0, SP_IntList());
-        yyin=fopen(fname, "r");
+        linePos=get_intList(0, std::shared_ptr<IntList>());
+        yyin=fopen(fileName, "r");
         if(!yyin)
         {
-            EM_error(0, "cannot open");
+            EM_error(0, {"cannot open"});
             throw runtime_error("");
         }
         
     }
     
-    void EM_error(int pos, string message, initializer_list<string> ap)
+    void EM_error(int pos, initializer_list<string> ap)
     {
         SP_IntList lines=linePos;
         int num=lineNum;

@@ -12,7 +12,7 @@ namespace errormsg
 
     extern int EM_tokPos;
 
-    void EM_error(int, std::string, std::initializer_list<std::string>);
+    void EM_error(int, std::initializer_list<std::string>);
     //void EM_impossible(string,...);
     void EM_reset(std::string filename);
     

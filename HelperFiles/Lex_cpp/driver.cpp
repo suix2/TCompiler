@@ -1,3 +1,4 @@
+#include <FlexLexer.h>
 #include "util.h"
 #include "errormsg.h"
 #include "tokens.h"
@@ -20,7 +21,7 @@ string toknames[] = {
 };
 
 
-string tokname(tok) {
+string tokname(int tok) {
     return tok<257 || tok>300 ? "BAD_TOKEN" : toknames[tok-257];
 }
 
@@ -40,7 +41,7 @@ int main(int argc, char **argv) {
         if (tok==0) break;
         switch(tok) {
             case ID: case STRING:
-            cout<<tokname(tok)<<"\t"<<EM_tokPos<<"\t"<<yylval.sval<<endl;
+            cout<<tokname(tok)<<"\t"<<EM_tokPos<<"\t"<<*yylval.sval<<endl;
             break;
             case INT:
             cout<<tokname(tok)<<"\t"<<EM_tokPos<<"\t"<<yylval.ival<<endl;

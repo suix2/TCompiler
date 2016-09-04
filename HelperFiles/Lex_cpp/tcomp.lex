@@ -1,22 +1,23 @@
 %{
 #include <string>
+#include <FlexLexer.h>
 #include "util.h"
 #include "tokens.h"
 #include "errormsg.h"
 
 int charPos=1;
 
-int yywrap(void)
+int yyFlexLexer::yywrap(void)
 {
- charPos=1;
- return 1;
+    charPos=1;
+    return 1;
 }
 
 
-void adjust(void)
+void yyFlexLexer::adjust(void)
 {
- EM_tokPos=charPos;
- charPos+=yyleng;
+    errormsg::EM_tokPos=charPos;
+    charPos+=yyleng;
 }
 
 %}
@@ -26,11 +27,11 @@ void adjust(void)
 \n          ;
 \/\/.*      {adjust(); continue;}
 "/*"((\*+[^/*])|([^*]))*\**"*/"  {adjust(); continue;}
-\"((\\\")*[^\"]*)*\"      {adjust(); yylval.sval=String(yytext); return STRING;}
-[0-9]+	    {adjust(); yylval.ival=atoi(yytext); return INT;}
-","	        {adjust(); return COMMA;}
+\"((\\\")*[^\"]*)*\"      {adjust(); *yylval.sval=std::string(yytext); return STRING;}
+[0-9]+	    {adjust(); yylval.ival=std::stoi(yytext); return INT;}
+","         {adjust(); return COMMA;}
 ":"         {adjust(); return COLON;}
-";"         {adjust(); EM_newline(); return SEMICOLON;}
+";"         {adjust(); errormsg::EM_newline(); return SEMICOLON;}
 "("         {adjust(); return LPAREN;}
 ")"         {adjust(); return RPAREN;}
 "["         {adjust(); return LBRACK;}
@@ -51,7 +52,7 @@ void adjust(void)
 "&&"        {adjust(); return AND;}
 "||"        {adjust(); return OR;}
 "="         {adjust(); return ASSIGN;}
-\[[1-9]+[0-9]*\] {adjust(); yylval.ival=atoi(yytext+1); return ARRAY;}
+\[[1-9]+[0-9]*\] {adjust(); yylval.ival=std::stoi(yytext+1); return ARRAY;}
 "if"        {adjust(); return IF;}
 "continue"  {adjust(); return CONTINUE;}
 "else"      {adjust(); return ELSE;}
@@ -69,7 +70,7 @@ void adjust(void)
 "#define"   {adjust(); return DEFINE;}
 "#include"  {adjust(); return INCLUDE;}
 "!"         {adjust(); return NOT;}
-[a-zA-Z_][a-zA-Z0-9_]*    {adjust(); yylval.sval=String(yytext); return ID;}
+[a-zA-Z_][a-zA-Z0-9_]*    {adjust(); *yylval.sval=std::string(yytext); return ID;}
 
-.	        {adjust(); EM_error(EM_tokPos,"illegal token");}
+.	        {adjust(); errormsg::EM_error(errormsg::EM_tokPos,{"illegal token"});}
 %%

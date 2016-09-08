@@ -53,18 +53,42 @@ void yyerror(char *s)
  *  to replace the two dummy productions below with an actual grammar. 
  */
 
-//TODO
-program:    stm
+program:  fncd
+        | fnc
+        | program fnc
+        | program fncd
 
-//TODO
 stm:      exp SEMICOLON
+        | stm exp SEMICOLON
+        | LBRACE stm RBRACE
+        | whstm
+        | forstm
+        | swstm
         | ifstm
 
-//TODO
-exp:      ID ASSIGN ID
-        | ID ASSIGN NUM
-        | exp COMMA exp
-        | 
+exp:      exp COMMA exp
+        | lv ASSIGN rv
+        | rv OR rv
+        | rv AND rv
+        | rv EQ rv
+        | rv NEQ rv
+        | rv LT rv
+        | rv LE rv
+        | rv GT rv
+        | rv GE rv
+        | rv PLUS rv
+        | rv MINUS rv
+        | rv TIMES rv
+        | rv DIVIDE rv
+        | SIZEOF rv
+        | NOT rv
+        | lv DOT lv
+
+rv:       ID
+        | NUM
+        | exp
+
+lv:       ID
 
 ifstm:    IF LPAREN exp RPAREN stm ELSE stm
         | IF LPAREN exp RPAREN stm
@@ -73,7 +97,6 @@ whstm:    WHILE LPAREN exp RPAREN stm
 
 forstm:   FOR LPAREN exp SEMICOLON exp SEMICOLON exp RPAREN stm
 
-//TODO
 swstm:    SWITCH LPAREN ID RPAREN LBRACE swcases RBRACE
 
 swcases:  swcase
@@ -81,6 +104,20 @@ swcases:  swcase
 
 swcase:   CASE COLON stm
         | swcase CASE COLON stm
+
+fnc:      ID ID LPAREN prls RPAREN LBRACE LBRACE
+
+fncd:     ID ID LPAREN prls RPAREN SEMICOLON
+
+prls:     ID
+        | ID ID
+        | PRL COMMA PRL
+
+
+
+
+
+
 
 
 

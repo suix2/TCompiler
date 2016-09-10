@@ -58,19 +58,13 @@ program:  fncd
         | program fnc
         | program fncd
 
-stms:     stm
-        | stms stm
-
 stm:      exp SEMICOLON
-        | blocks
-        | WHILE LPAREN exp RPAREN exp SEMICOLON
-        | WHILE LPAREN exp RPAREN blocks
-        | FOR LPAREN exp SEMICOLON exp SEMICOLON exp RPAREN exp SEMICOLON
-        | FOR LPAREN exp SEMICOLON exp SEMICOLON exp RPAREN blocks
+        | exp SEMICOLON stm
+        | LBRACE stm RBRACE
+        | WHILE LPAREN exp RPAREN stm
+        | FOR LPAREN exp SEMICOLON exp SEMICOLON exp RPAREN stm
         | swstm
         | ifstm
-
-blocks:   LBRACE stms RBRACE
 
 exp:      ID
         | INT
@@ -98,17 +92,17 @@ exp:      ID
 lv:       ID
 
 ifstm:    IF LPAREN exp RPAREN stm ELSE stm
-        | IF LPAREN exp RPAREN stm
+        | IF LPAREN exp RPAREN stm 
 
 swstm:    SWITCH LPAREN ID RPAREN LBRACE swcases RBRACE
 
 swcases:  swcase
         | swcase DEFAULT COLON stm
 
-swcase:   CASE COLON stms
-        | swcase CASE COLON stms
+swcase:   CASE COLON stm
+        | swcase CASE COLON stm
 
-fnc:      ID ID LPAREN prls RPAREN LBRACE stms RBRACE
+fnc:      ID ID LPAREN prls RPAREN LBRACE stm LBRACE
 
 fncd:     ID ID LPAREN prls RPAREN SEMICOLON
 

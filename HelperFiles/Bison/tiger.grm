@@ -59,43 +59,40 @@ program:  fncd
         | program fncd
 
 stm:      exp SEMICOLON
-        | stm exp SEMICOLON
+        | exp SEMICOLON stm
         | LBRACE stm RBRACE
-        | whstm
-        | forstm
+        | WHILE LPAREN exp RPAREN stm
+        | FOR LPAREN exp SEMICOLON exp SEMICOLON exp RPAREN stm
         | swstm
         | ifstm
 
-exp:      exp COMMA exp
-        | lv ASSIGN rv
-        | rv OR rv
-        | rv AND rv
-        | rv EQ rv
-        | rv NEQ rv
-        | rv LT rv
-        | rv LE rv
-        | rv GT rv
-        | rv GE rv
-        | rv PLUS rv
-        | rv MINUS rv
-        | rv TIMES rv
-        | rv DIVIDE rv
-        | SIZEOF rv
-        | NOT rv
+exp:      ID
+        | INT
+        | CHAR
+        | STRING
+        | exp COMMA exp
+        | lv ASSIGN exp
+        | exp OR exp
+        | exp AND exp
+        | exp EQ exp
+        | exp NEQ exp
+        | exp LT exp
+        | exp LE exp
+        | exp GT exp
+        | exp GE exp
+        | exp PLUS exp
+        | exp MINUS exp
+        | exp TIMES exp
+        | exp DIVIDE exp
+        | SIZEOF exp
+        | NOT exp
         | lv DOT lv
-
-rv:       ID
-        | NUM
-        | exp
+        | fncc
 
 lv:       ID
 
 ifstm:    IF LPAREN exp RPAREN stm ELSE stm
-        | IF LPAREN exp RPAREN stm
-
-whstm:    WHILE LPAREN exp RPAREN stm
-
-forstm:   FOR LPAREN exp SEMICOLON exp SEMICOLON exp RPAREN stm
+        | IF LPAREN exp RPAREN stm 
 
 swstm:    SWITCH LPAREN ID RPAREN LBRACE swcases RBRACE
 
@@ -105,13 +102,15 @@ swcases:  swcase
 swcase:   CASE COLON stm
         | swcase CASE COLON stm
 
-fnc:      ID ID LPAREN prls RPAREN LBRACE LBRACE
+fnc:      ID ID LPAREN prls RPAREN LBRACE stm LBRACE
 
 fncd:     ID ID LPAREN prls RPAREN SEMICOLON
 
+fncc:     ID LPAREN exp RPAREN
+
 prls:     ID
         | ID ID
-        | PRL COMMA PRL
+        | prls COMMA prls
 
 
 
